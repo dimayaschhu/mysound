@@ -1,0 +1,24 @@
+version: '3'
+
+services:
+  rest_golang:
+    container_name: rest_golang
+    ports:
+      - "8071:8071"
+      - "8072:80"
+    user: golang
+    build:
+      context: ..
+      dockerfile: docker/golang/Dockerfile
+    volumes:
+      - ../:/home/golang/rest
+      - "/etc/localtime:/etc/localtime:ro"
+    working_dir: /home/golang/rest
+    command: "bash"
+    tty: true
+    environment:
+      - "GOFLAGS=-mod=vendor"
+networks:
+  default:
+    external:
+      name: rzk_net
